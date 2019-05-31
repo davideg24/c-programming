@@ -1,3 +1,4 @@
+
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -9,21 +10,19 @@ struct _retire_info {
 
 typedef struct _retire_info retire_info;
 
+void computation(int * startAge, double *  initial, retire_info status) {
+  for (int i = 0; i < status.months; i++) {
+    printf("Age %3d month %2d you have $%.2lf\n", *startAge/12, *startAge%12, *initial);
+    *initial += *initial*status.rate_of_return;
+    *initial += status.contribution;
+    *startAge += 1;
+  }
+}
+
 void retirement(int startAge, double initial, retire_info working,
       		retire_info retired) {
-  for (int i = 0; i < working.months; i++) {
-    printf("Age %3d month %2d you have $%.2lf\n", startAge/12, startAge%12, initial);
-    initial += initial*working.rate_of_return;
-    initial += working.contribution;
-    startAge += 1;
-  }
-  
-  for (int i = 0; i < retired.months; i++) {
-    printf("Age %3d month %2d you have $%.2lf\n", startAge/12, startAge%12, initial);
-    initial += initial*retired.rate_of_return;
-    initial += retired.contribution;
-    startAge += 1;
-  } 
+  computation(&startAge, &initial, working);
+  computation(&startAge, &initial, retired);
 }
   
 
